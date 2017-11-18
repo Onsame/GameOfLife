@@ -1,4 +1,5 @@
 #include <GL/glut.h>
+#include <life.c>
 #include <stdio.h>
 #include <stdlib.h>
 #define WORLDX 50
