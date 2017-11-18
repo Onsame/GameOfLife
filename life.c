@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
 #include <GL/glut.h>
-=======
 #include <ncurses.h>
-
->>>>>>> 7a97de025927ad31d203851a537d792097fc6e9a
 
 //currently built for NCurses
 //for 80x24

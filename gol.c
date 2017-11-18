@@ -2,12 +2,13 @@
 #include <life.c>
 #include <stdio.h>
 #include <stdlib.h>
-#define WORLDX 50
-#define WORLDY 50
+#include "life.c"
+#define GWORLDX 50
+#define GWORLDY 50
 //Conways Game of Life using OpenGL
 //Functions (library) by Ong M and Graphics by Tyler W
 
-unsigned short world[WORLDX][WORLDY];
+unsigned short gworld[GWORLDX][GWORLDY];
 int x, y;
 
 void grid(void)
@@ -50,13 +51,13 @@ int main(int argc, char **argv)
     {
       check_world();
       birth();
-      for(i = 0; i < WORLDY; i++)
+      for(i = 0; i < GWORLDY; i++)
 	{
-	  for(j = 0; j < WORLDX; j++)
+	  for(j = 0; j < GWORLDX; j++)
 	    {
-	      if(world[i][j] == 0)
+	      if(gworld[i][j] == 0)
 		break;
-	      if(world[i][j] == 1)
+	      if(gworld[i][j] == 1)
 		{
 		  x = i;
 		  y = j;
