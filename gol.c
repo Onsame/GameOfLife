@@ -14,7 +14,7 @@ void grid(void)
   
 }
 
-void display(double x, double y)
+void display(void)
 {
   int i;
   glClear(GL_COLOR_BUFFER_BIT);
@@ -63,7 +63,6 @@ int main(int argc, char **argv)
 		  glutMainLoop();
 		}
 	    }
-	}
-      
+	}      
     }
 }
