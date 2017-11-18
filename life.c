@@ -96,7 +96,7 @@ void birth()
 void exit_world()
 {
   //endwin();
-  //  print_std();
+  //print_std();
   printf("\nDone\n");
   exit(0);
 }
