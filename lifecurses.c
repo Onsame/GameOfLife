@@ -46,7 +46,7 @@ void check_around (int y, int x)
     for(j = -1; j < 2; j++)
       {
 	
-	if ( (y + i) == y && (x + j) == x || (y+1) < 0 || (x+1) <0 || (y+1) > WORLDY || (x+1) > WORLDX)
+	if ( i == 0 && j == 0 )
 	  continue;
       //checks the short 16384 = 0100000000000000
       //is if it greater then we have an alive cell
@@ -74,7 +74,6 @@ void print_life()
   for ( i = 0; i < WORLDY-1; i++)
     for( j = 0; j < WORLDX-1; j++)
       {
-	
 	if (world[i][j] & BIRTH)
 	  {
 	    move(i,j);
