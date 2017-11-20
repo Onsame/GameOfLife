@@ -74,7 +74,6 @@ void print_life()
   for ( i = 0; i < WORLDY-1; i++)
     for( j = 0; j < WORLDX-1; j++)
       {
-	
 	if (world[i][j] & BIRTH)
 	  {
 	    move(i,j);
