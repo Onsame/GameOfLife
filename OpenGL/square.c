@@ -22,7 +22,7 @@ int main(int argc, char **argv)
   glutInitWindowSize(300, 300);
   glutCreateWindow ("Square");
 
-  glClearColor (0.0, 0.0, 0.0, 0.0);
+  glClearColor (1.0, 0.0, 0.0, 0.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(0.0, 10.0, 0.0, 10.0, -1.0, 1.0);
