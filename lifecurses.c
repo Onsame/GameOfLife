@@ -79,7 +79,10 @@ void print_life()
       }
   refresh();  
 }
-      
+
+
+
+
 void exit_world()
 {
   endwin();
