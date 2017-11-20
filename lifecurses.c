@@ -17,13 +17,12 @@ unsigned short world[WORLDY][WORLDX];
 void three_seed()
 {
   int i,j;
-  for (i = 13; i < 16; i++)
-    for( j = 13; j < 16; j++)
+  for (i = 10; i < 13; i++)
+    for( j = 38; j < 41; j++)
       {
 	world[i][j] = LIVING;
 	move(i,j);
-	if (world[i][j] & LIVING)
-          printw("X");
+	printw("X");
       }
   
 }
@@ -37,7 +36,7 @@ void start_world()
       world[i][j] = 0;
 }
 
-//checks one space around returns dead or alive 
+//checks one space around returns the next gen as dead or alive 
 void check_around (int y, int x)
 {
   //ncell is neighboring cell it will increase with every neighboring cell
@@ -46,18 +45,14 @@ void check_around (int y, int x)
     for(j = -1; j < 2; j++)
       {
 	
-	if ( i == 0 && j == 0 )
+	if ( i == 0 && j == 0 || (y+i) < 0 || (y+i) > WORLDY-1 || (x+j) < 0 || (x+j) > WORLDX-1)
 	  continue;
-      //checks the short 16384 = 0100000000000000
-      //is if it greater then we have an alive cell
+	//checks the short 0x4000
 	if(world[y + i][x + j] & LIVING)
 	  ncell++;
-      // else
-      //	continue;
       }
   if (ncell == 2 || ncell == 3)
-    world[y][x]=BIRTH;
- 
+    world[y][x]+=BIRTH;
 }
 
 void check_world()
@@ -71,50 +66,43 @@ void check_world()
 void print_life()
 {
   int i,j;
-  for ( i = 0; i < WORLDY-1; i++)
-    for( j = 0; j < WORLDX-1; j++)
-      {
-	if (world[i][j] & BIRTH)
-	  {
-	    move(i,j);
-	    printw("X");
-	    world[i][j] = LIVING;
-	  }
-	//world[i][i] = world[i][j] >> 1;
-      }
-  refresh();  
-}
-
-/*void print_std()
-{
-  int i,j;
   for ( i = 0; i < WORLDY; i++)
     for( j = 0; j < WORLDX; j++)
       {
-	if (world[i][j] & LIVING || world[i][j] & BIRTH)
-	  printf("%u\n",world[i][j]);
+	world[i][j] = world[i][j] >> 1;
+	if (world[i][j] & LIVING)
+	  {
+	    move(i,j);
+	    printw("X");
+	  }
+	
       }
-}*/
+  refresh();  
+}
       
 void exit_world()
 {
   endwin();
   //  print_std();
   printf("\nDone\n");
+  exit(0);
 }
 
 int main (void)
 {
+  char cc;
   start_world();
   three_seed();
-  getch();
-  clear();
-  check_world();
-  print_life();
-  getch();
-  clear();
-  check_world();
-  print_life();
-  getch();
-  exit_world();
+  while(1)
+    {
+    cc = getch();
+    if (cc=='q')
+      exit_world();
+    else
+      {
+	clear();
+	check_world();
+	print_life();
+      }
+    }
 }
