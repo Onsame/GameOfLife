@@ -55,8 +55,15 @@ void check_around (int y, int x)
 	if(world[y + i][x + j] & LIVING)
 	  ncell++;
       }
-  if (ncell == 2 || ncell == 3)
-    world[y][x]+=BIRTH;
+  if (world[y][x] & LIVING)
+    {
+      if (ncell ==2 ||ncell == 3)
+	world[y][x]+=BIRTH;
+    }
+  else
+    if (ncell == 3)
+      world[y][x] += BIRTH;
+
 }
 
 void check_world()

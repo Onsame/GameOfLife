@@ -5,8 +5,8 @@
 
 //currently built for NCurses
 //for 80x24
-#define WORLDY 24
-#define WORLDX 80
+#define WORLDY 48
+#define WORLDX 160
 //living and birth values
 #define BIRTH 0x8000
 #define LIVING 0x4000 
@@ -17,8 +17,8 @@ unsigned short world[WORLDY][WORLDX];
 void three_seed()
 {
   int i,j;
-  for (i = 10; i < 13; i++)
-    for( j = 38; j < 41; j++)
+  for (i = 23; i < 26; i++)
+    for( j = 78; j < 81; j++)
       {
 	world[i][j] = LIVING;
 	move(i,j);
@@ -31,6 +31,8 @@ void start_world()
 {
   int i, j;
   initscr();
+  curs_set(0);
+  nocbreak();
   for ( i = 0; i < WORLDY; i++)
     for( j = 0; j < WORLDX; j++)
       world[i][j] = 0;
@@ -51,8 +53,14 @@ void check_around (int y, int x)
 	if(world[y + i][x + j] & LIVING)
 	  ncell++;
       }
-  if (ncell == 2 || ncell == 3)
-    world[y][x]+=BIRTH;
+  if (world[y][x] & LIVING)
+    {
+    if (ncell ==2 ||ncell == 3)
+      world[y][x]+=BIRTH;
+    }
+  else
+    if (ncell == 3)
+      world[y][x] += BIRTH;
 }
 
 void check_world()
@@ -98,14 +106,12 @@ int main (void)
   three_seed();
   while(1)
     {
-    cc = getch();
-    if (cc=='q')
-      exit_world();
-    else
-      {
-	clear();
-	check_world();
-	print_life();
-      }
+      timeout(500);
+      cc = getch();
+      if (cc=='q')
+	exit_world();
+      clear();
+      check_world();
+      print_life();
     }
 }
