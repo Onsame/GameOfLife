@@ -33,6 +33,7 @@ void start_world()
   initscr();
   curs_set(0);
   nocbreak();
+  noecho();
   for ( i = 0; i < WORLDY; i++)
     for( j = 0; j < WORLDX; j++)
       world[i][j] = 0;
