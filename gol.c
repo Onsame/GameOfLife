@@ -34,10 +34,10 @@ void draw_cell(int x, int y)
 {
   glColor3f(1.0, 1.0, 1.0);
   glBegin(GL_POLYGON);
-  glVertex2f(x*4.8, y*4.8);
-  glVertex2f(x*4.8, (y*4.8)+4.8);
-  glVertex2f((x*4.8)+4.8, y*4.8);
-  glVertex2f((x*4.8)+4.8, (y*4.8)+4.8);
+  glVertex2f(x*5, y*5);
+  glVertex2f(x*5, (y*5)+4.8);
+  glVertex2f((x*5)+4.8, y*5);
+  glVertex2f((x*5)+4.8, (y*5)+4.8);
   glEnd();
   glFlush();
 }
@@ -46,10 +46,10 @@ void draw_dead_cell(int x, int y)
 {
   glColor3f(0.0, 0.0, 0.0);
   glBegin(GL_POLYGON);
-  glVertex2f(x*4.8, y*4.8);
-  glVertex2f(x*4.8, (y*4.8)+4.8);
-  glVertex2f((x*4.8)+4.8, y*4.8);
-  glVertex2f((x*4.8)+4.8, (y*4.8)+4.8);
+  glVertex2f(x*5, y*5);
+  glVertex2f(x*5, (y*5)+4.8);
+  glVertex2f((x*5)+4.8, y*5);
+  glVertex2f((x*5)+4.8, (y*5)+4.8);
   glEnd();
   glFlush();
 }
@@ -59,21 +59,23 @@ void display(void)
   int x, y;
   start_world();
   three_seed();
-  check_world();
-  birth();
-  for(x = 0; x < WORLDX; x++)
+  while (1)
     {
-      for(y = 0; y < WORLDY; y++)
+      check_world();
+      birth();
+      for(x = 0; x < WORLDX; x++)
 	{
-	  if(world[x][y] == LIVING)
-	    {	      
-	      draw_cell(x, y);
-	      grid();
-	    }
-	  else
+	  grid();
+	  for(y = 0; y < WORLDY; y++)
 	    {
-	      draw_dead_cell(x, y);
-	      grid();
+	      if(world[x][y] == LIVING)
+		{	      
+		  draw_cell(x, y);
+		}
+	      else
+		{
+		  draw_dead_cell(x, y);
+		}
 	    }
 	}
     }
