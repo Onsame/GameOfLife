@@ -59,20 +59,21 @@ void display(void)
   int x, y;
   start_world();
   three_seed();
+  glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  grid();
   while (1)
     {
       check_world();
       birth();
       for(x = 0; x < WORLDX; x++)
 	{
-	  grid();
 	  for(y = 0; y < WORLDY; y++)
 	    {
 	      if(world[x][y] == LIVING)
-		{	      
+		{
 		  draw_cell(x, y);
 		}
-	      else
+	      else if(world[x][y] != LIVING && world[x][y] == 0x2000)  
 		{
 		  draw_dead_cell(x, y);
 		}
