@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <GL/glut.h>
 #include <ncurses.h>
-
 
 //currently built for NCurses
 //for 80x24
-#define WORLDY 48
-#define WORLDX 160
+#define WORLDY 100
+#define WORLDX 100
 //living and birth values
 #define BIRTH 0x8000
 #define LIVING 0x4000 
@@ -17,54 +17,20 @@ unsigned short world[WORLDY][WORLDX];
 void three_seed()
 {
   int i,j;
-  for (i = 20; i < 23; i++)
-    for( j = 75; j < 78; j++)
+  for (i = 10; i < 13; i++)
+    for( j = 38; j < 41; j++)
       {
 	world[i][j] = LIVING;
-	move(i,j);
-	printw("X");
+	//move(i,j);
+	//printw("X");
       }
-  
-   for (i = 23; i < 26; i++)
-    for( j = 78; j < 81; j++)
-      {
-	world[i][j] = LIVING;
-	move(i,j);
-	printw("X");
-      }
-   
-   for (i = 26; i < 29; i++)
-    for( j = 81; j < 84; j++)
-      {
-	world[i][j] = LIVING;
-	move(i,j);
-	printw("X");
-      }
-   for (i = 20; i < 23; i++)
-    for( j = 81; j < 84; j++)
-      {
-	world[i][j] = LIVING;
-	move(i,j);
-	printw("X");
-      }
-   for (i = 26; i < 29; i++)
-    for( j = 75; j < 78; j++)
-      {
-	world[i][j] = LIVING;
-	move(i,j);
-	printw("X");
-      }
-  
   
 }
 
 void start_world()
 {
   int i, j;
-  initscr();
-  curs_set(0);
-  nocbreak();
-  noecho();
+  //  initscr();
   for ( i = 0; i < WORLDY; i++)
     for( j = 0; j < WORLDX; j++)
       world[i][j] = 0;
@@ -87,12 +53,13 @@ void check_around (int y, int x)
       }
   if (world[y][x] & LIVING)
     {
-    if (ncell ==2 ||ncell == 3)
-      world[y][x]+=BIRTH;
+      if (ncell ==2 ||ncell == 3)
+	world[y][x]+=BIRTH;
     }
   else
     if (ncell == 3)
       world[y][x] += BIRTH;
+
 }
 
 void check_world()
@@ -103,47 +70,18 @@ void check_world()
 	check_around(i,j);
 }
 
-void print_life()
+void birth()
 {
   int i,j;
   for ( i = 0; i < WORLDY; i++)
     for( j = 0; j < WORLDX; j++)
-      {
-	world[i][j] = world[i][j] >> 1;
-	if (world[i][j] & LIVING)
-	  {
-	    move(i,j);
-	    printw("X");
-	  }
-	
-      }
-  refresh();  
+      world[i][j] = world[i][j] >> 1;
 }
-
-
-
 
 void exit_world()
 {
-  endwin();
-  //  print_std();
   printf("\nDone\n");
   exit(0);
 }
 
-int main (void)
-{
-  char cc;
-  start_world();
-  three_seed();
-  while(1)
-    {
-      timeout(500);
-      cc = getch();
-      if (cc=='q')
-	exit_world();
-      clear();
-      check_world();
-      print_life();
-    }
-}
+
