@@ -60,6 +60,7 @@ void display(void)
   glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // glLoadIdentity();
   grid();
+<<<<<<< HEAD
    while(1)
      {
        check_world();
@@ -88,6 +89,27 @@ void init_world()
 {
   start_world();
   three_seed();
+=======
+  while (1)
+    {
+      for(x = 0; x < WORLDX; x++)
+	{
+	  for(y = 0; y < WORLDY; y++)
+	    {
+	      if(world[x][y] == LIVING)
+		{
+		  draw_cell(x, y);
+		}
+	      else  
+		{
+		  draw_dead_cell(x, y);
+		}
+	    }
+	}
+      check_world();
+      birth();
+    }
+>>>>>>> 631a68ddcff21370b245b4041ae40f8c2aafe038
 }
 
 
@@ -97,16 +119,22 @@ int main(int argc, char **argv)
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
   
   glutInitWindowPosition(0, 0);
-  glutInitWindowSize(500, 500);
+  glutInitWindowSize(WORLDX, WORLDY);
   glutCreateWindow("Game Of Life");
 
   glClearColor (0.0, 0.0, 0.0, 0.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
+<<<<<<< HEAD
   glOrtho(0.0, 500.0, 0.0, 500.0, -1.0, 1.0);
   init_world();
   glutDisplayFunc(display);
   //  usleep(1000);
+=======
+  glOrtho(0.0, WORLDX, 0.0, WORLDY, -1.0, 1.0);
+  glutDisplayFunc(display);
+  usleep(1000);
+>>>>>>> 631a68ddcff21370b245b4041ae40f8c2aafe038
   glutMainLoop();
 
   //return 0;
