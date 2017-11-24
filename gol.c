@@ -10,21 +10,21 @@ void grid(void)
 {
   int gx, gy;
   
-  for(gx = 0; gx < 500; gx += 5)
+  for(gx = 0; gx < WORLDX; gx += 5)
     {
       glColor3f(1.0, 1.0, 1.0);
       glBegin(GL_LINES);
       glVertex2f(gx, 0);
-      glVertex2f(gx, 500);
+      glVertex2f(gx, WORLDX);
       glEnd();
       glFlush();
     }
-  for(gy = 0; gy < 500; gy += 5)
+  for(gy = 0; gy < WORLDY; gy += 5)
     {
       glColor3f(1.0, 1.0, 1.0);
       glBegin(GL_LINES);
       glVertex2f(0, gy);
-      glVertex2f(500, gy);
+      glVertex2f(WORLDY, gy);
       glEnd();
       glFlush();
     }
@@ -57,30 +57,39 @@ void draw_dead_cell(int x, int y)
 void display(void)
 {
   int x, y;
+  glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  // glLoadIdentity();
+  grid();
+   while(1)
+     {
+       check_world();
+       birth();
+       for(x = 0; x < WORLDX-1; x++)
+	 {
+	   for(y = 0; y < WORLDY-1; y++)
+	     {
+	       if(world[x][y] == LIVING)
+		 {
+		   draw_cell(x, y);
+		 }
+	       else if(world[x][y] != LIVING && world[x][y] == 0x2000)  
+		 {
+		   draw_dead_cell(x, y);
+		 }
+	     }
+	 }
+       usleep(100000);
+       grid();
+      //continue;
+     }
+}
+
+void init_world()
+{
   start_world();
   three_seed();
-  glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  grid();
-  while (1)
-    {
-      check_world();
-      birth();
-      for(x = 0; x < WORLDX; x++)
-	{
-	  for(y = 0; y < WORLDY; y++)
-	    {
-	      if(world[x][y] == LIVING)
-		{
-		  draw_cell(x, y);
-		}
-	      else if(world[x][y] != LIVING && world[x][y] == 0x2000)  
-		{
-		  draw_dead_cell(x, y);
-		}
-	    }
-	}
-    }
 }
+
 
 int main(int argc, char **argv)
 {
@@ -95,9 +104,10 @@ int main(int argc, char **argv)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(0.0, 500.0, 0.0, 500.0, -1.0, 1.0);
+  init_world();
   glutDisplayFunc(display);
-  //usleep(1000);
+  //  usleep(1000);
   glutMainLoop();
 
-  return 0;
+  //return 0;
 }

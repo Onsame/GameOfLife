@@ -23,6 +23,36 @@ void three_seed()
 	world[i][j] = LIVING;
 	move(i,j);
 	printw("X");
+      }
+  
+   for (i = 23; i < 26; i++)
+    for( j = 78; j < 81; j++)
+      {
+	world[i][j] = LIVING;
+	move(i,j);
+	printw("X");
+      }
+   
+   for (i = 26; i < 29; i++)
+    for( j = 81; j < 84; j++)
+      {
+	world[i][j] = LIVING;
+	move(i,j);
+	printw("X");
+      }
+   for (i = 20; i < 23; i++)
+    for( j = 81; j < 84; j++)
+      {
+	world[i][j] = LIVING;
+	move(i,j);
+	printw("X");
+      }
+   for (i = 26; i < 29; i++)
+    for( j = 75; j < 78; j++)
+      {
+	world[i][j] = LIVING;
+	move(i,j);
+	printw("X");
       }  
 }
 
