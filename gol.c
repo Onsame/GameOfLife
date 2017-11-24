@@ -10,21 +10,21 @@ void grid(void)
 {
   int gx, gy;
   
-  for(gx = 0; gx < 500; gx += 5)
+  for(gx = 0; gx < WORLDX; gx += 5)
     {
       glColor3f(1.0, 1.0, 1.0);
       glBegin(GL_LINES);
       glVertex2f(gx, 0);
-      glVertex2f(gx, 500);
+      glVertex2f(gx, WORLDX);
       glEnd();
       glFlush();
     }
-  for(gy = 0; gy < 500; gy += 5)
+  for(gy = 0; gy < WORLDY; gy += 5)
     {
       glColor3f(1.0, 1.0, 1.0);
       glBegin(GL_LINES);
       glVertex2f(0, gy);
-      glVertex2f(500, gy);
+      glVertex2f(WORLDY, gy);
       glEnd();
       glFlush();
     }
@@ -63,8 +63,6 @@ void display(void)
   grid();
   while (1)
     {
-      check_world();
-      birth();
       for(x = 0; x < WORLDX; x++)
 	{
 	  for(y = 0; y < WORLDY; y++)
@@ -73,12 +71,14 @@ void display(void)
 		{
 		  draw_cell(x, y);
 		}
-	      else if(world[x][y] != LIVING && world[x][y] == 0x2000)  
+	      else  
 		{
 		  draw_dead_cell(x, y);
 		}
 	    }
 	}
+      check_world();
+      birth();
     }
 }
 
@@ -88,15 +88,15 @@ int main(int argc, char **argv)
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
   
   glutInitWindowPosition(0, 0);
-  glutInitWindowSize(500, 500);
+  glutInitWindowSize(WORLDX, WORLDY);
   glutCreateWindow("Game Of Life");
 
   glClearColor (0.0, 0.0, 0.0, 0.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(0.0, 500.0, 0.0, 500.0, -1.0, 1.0);
+  glOrtho(0.0, WORLDX, 0.0, WORLDY, -1.0, 1.0);
   glutDisplayFunc(display);
-  //usleep(1000);
+  usleep(1000);
   glutMainLoop();
 
   return 0;
