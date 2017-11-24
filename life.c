@@ -6,7 +6,7 @@
 //currently built for NCurses
 //for 80x24
 #define WORLDY 500
-#define WORLDX 500
+#define WORLDX 500 
 //living and birth values
 #define BIRTH 0x8000
 #define LIVING 0x4000 

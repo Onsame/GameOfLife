@@ -46,9 +46,9 @@ void draw_dead_cell(int x, int y)
 {
   glColor3f(0.0, 0.0, 0.0);
   glBegin(GL_POLYGON);
-  glVertex2f(x*5, y*5);
-  glVertex2f(x*5, (y*5)+4.8);
-  glVertex2f((x*5)+4.8, y*5);
+  glVertex2f((x*5), (y*5));
+  glVertex2f((x*5), (y*5)+4.8);
+  glVertex2f((x*5)+4.8, (y*5));
   glVertex2f((x*5)+4.8, (y*5)+4.8);
   glEnd();
   glFlush();
@@ -61,7 +61,7 @@ void display(void)
   three_seed();
   glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   grid();
-  while (1)
+  while(1)
     {
       for(x = 0; x < WORLDX; x++)
 	{
@@ -77,9 +77,9 @@ void display(void)
 		}
 	    }
 	}
-      check_world();
-      birth();
     }
+  check_world();
+  birth();
 }
 
 int main(int argc, char **argv)
