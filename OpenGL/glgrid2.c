@@ -1,6 +1,21 @@
 #include <GL/glut.h>
 #include <stdio.h>
 
+int ax, ay;
+
+void square(void)
+{
+
+  glColor3f(0.0, 0.0, 0.0);
+  glBegin(GL_POLYGON);
+  glVertex2f(ax*5, ay*5);
+  glVertex2f(ax*5, (ay*5)+5);
+  glVertex2f((ax*5)+5, ay*5);
+  glVertex2f((ax*5)+5, (ay*5)+5);
+  glEnd();
+  glFlush();
+}
+
 void display(void)
 {
   int x, y;
@@ -22,6 +37,11 @@ void display(void)
       glVertex2f(500, y);
       glEnd();
       glFlush();
+    }
+  for(ax = 0; ax < 100; ax++)
+    {
+      for (ay = 0; ay < 100; ay++)
+	square();
     }
 }
 

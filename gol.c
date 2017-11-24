@@ -1,70 +1,100 @@
 #include <GL/glut.h>
-#include <life.c>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "life.c"
-#define GWORLDX 50
-#define GWORLDY 50
 //Conways Game of Life using OpenGL
 //Functions (library) by Ong M and Graphics by Tyler W
 
-unsigned short gworld[GWORLDX][GWORLDY];
-int x, y;
-
 void grid(void)
 {
+  int gx, gy;
   
+  for(gx = 0; gx < 500; gx += 5)
+    {
+      glColor3f(1.0, 1.0, 1.0);
+      glBegin(GL_LINES);
+      glVertex2f(gx, 0);
+      glVertex2f(gx, 500);
+      glEnd();
+      glFlush();
+    }
+  for(gy = 0; gy < 500; gy += 5)
+    {
+      glColor3f(1.0, 1.0, 1.0);
+      glBegin(GL_LINES);
+      glVertex2f(0, gy);
+      glVertex2f(500, gy);
+      glEnd();
+      glFlush();
+    }
 }
 
-void display(void)
+void draw_cell(int x, int y)
 {
-  int i;
-  glClear(GL_COLOR_BUFFER_BIT);
   glColor3f(1.0, 1.0, 1.0);
   glBegin(GL_POLYGON);
-  glVertex2f(x + 1, y + 1);
-  glVertex2f(x + 1, y - 1);
-  glVertex2f(x - 1, y + 1);
-  glVertex2f(x - 1, y - 1);
+  glVertex2f(x*4.8, y*4.8);
+  glVertex2f(x*4.8, (y*4.8)+4.8);
+  glVertex2f((x*4.8)+4.8, y*4.8);
+  glVertex2f((x*4.8)+4.8, (y*4.8)+4.8);
   glEnd();
   glFlush();
 }
 
-int main(int argc, char **argv)
+void draw_dead_cell(int x, int y)
 {
-  int i, j;
+  glColor3f(0.0, 0.0, 0.0);
+  glBegin(GL_POLYGON);
+  glVertex2f(x*4.8, y*4.8);
+  glVertex2f(x*4.8, (y*4.8)+4.8);
+  glVertex2f((x*4.8)+4.8, y*4.8);
+  glVertex2f((x*4.8)+4.8, (y*4.8)+4.8);
+  glEnd();
+  glFlush();
+}
+
+void display(void)
+{
+  int x, y;
   start_world();
   three_seed();
-  glutInit(&argc, argv);
-  glutInitDisplayMode ( GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH );
+  check_world();
+  birth();
+  for(x = 0; x < WORLDX; x++)
+    {
+      for(y = 0; y < WORLDY; y++)
+	{
+	  if(world[x][y] == LIVING)
+	    {	      
+	      draw_cell(x, y);
+	      grid();
+	    }
+	  else
+	    {
+	      draw_dead_cell(x, y);
+	      grid();
+	    }
+	}
+    }
+}
 
+int main(int argc, char **argv)
+{
+  glutInit(&argc, argv);
+  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+  
   glutInitWindowPosition(0, 0);
   glutInitWindowSize(500, 500);
-  glutCreateWindow ("Game Of Life");
+  glutCreateWindow("Game Of Life");
 
   glClearColor (0.0, 0.0, 0.0, 0.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(0.0, 500.0, 0.0, 500.0, -1.0, 1.0);
+  glutDisplayFunc(display);
+  //usleep(1000);
+  glutMainLoop();
 
-  while(1)
-    {
-      check_world();
-      birth();
-      for(i = 0; i < GWORLDY; i++)
-	{
-	  for(j = 0; j < GWORLDX; j++)
-	    {
-	      if(gworld[i][j] == 0)
-		break;
-	      if(gworld[i][j] == 1)
-		{
-		  x = i;
-		  y = j;
-		  glutDisplayFunc(display);
-		  glutMainLoop();
-		}
-	    }
-	}      
-    }
+  return 0;
 }

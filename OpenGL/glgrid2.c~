@@ -1,0 +1,51 @@
+#include <GL/glut.h>
+#include <stdio.h>
+
+void display(void)
+{
+  int x = 0;
+  int y = 0;
+  int i = 0;
+  
+  glClear(GL_COLOR_BUFFER_BIT);
+  glColor3f(1.0, 1.0, 1.0);
+  for(x = -320; x < 320; x++)
+    {
+      glBegin(GL_LINES);
+      glVertex2f(x, y);
+      glVertex2f(x, y + 640);
+      glEnd();
+      glFlush();
+    }
+  for(y = -240; y < 240; y++)
+    {
+      glBegin(GL_LINES);
+      glVertex2f(x, y);
+      glVertex2f(x + 480, y);
+      glEnd();
+      glFlush();
+    }
+}
+
+int main(int argc, char **argv)
+{
+  glutInit(&argc, argv);
+  glutInitDisplayMode(GLUT_DOUBLE);
+
+  glutInitWindowPosition(0, 0);
+  glutInitWindowSize(640, 480);
+  glutCreateWindow("Grid");
+
+  glClearColor (0.0, 0.0, 0.0, 0.0);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(-320.0, 320.0, -240.0, 240.0, -1.0, 1.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glDisable(GL_DEPTH_TEST);
+
+  glutDisplayFunc(display);
+  glutMainLoop();
+
+  return 0;
+}
